@@ -11,7 +11,7 @@ import torch.nn as nn
 from datetime import datetime
 from torch_geometric.data import DataLoader as GeoLoader
 from deepmath.deephol.train_torch import data_torch
-from deepmath.deephol.train_torch.model_torch import GNN, GRN
+from deepmath.deephol.train_torch.model_torch import GNN, GCN
 from deepmath.deephol.train_torch.utils_torch import accuracy
 import tensorflow as tf
 tf.enable_eager_execution()
@@ -83,8 +83,8 @@ if __name__ == "__main__":
 
     if gnn_type == "GIN":
         net = GNN(params)
-    elif gnn_type == "GRN":
-        net = GRN(params)
+    elif gnn_type == "GCN":
+        net = GCN(params)
     optimizer = torch.optim.Adam(net.parameters(), lr=lr, weight_decay=5e-4)
 
     losses = {
