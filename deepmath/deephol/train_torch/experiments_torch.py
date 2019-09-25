@@ -77,7 +77,7 @@ if __name__ == "__main__":
         "tfexample",
         params
     )
-    val_batch_size = 100
+    val_batch_size = 64
     val_batch_sampler = data_torch.get_directory_batch_sampler(val_set, val_batch_size)
 
     net = GNN(params)
