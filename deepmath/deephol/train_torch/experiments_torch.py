@@ -58,6 +58,7 @@ if __name__ == "__main__":
     model_dir = params["model_dir"]
     cuda = params["cuda"]
     device = torch.device("cuda") if cuda else torch.device("cpu")
+    json.dump(params, open(model_dir + timestamp + "/config.json", "w"))
 
     train_set = data_torch.TacticDataset(
         dataset_dir + "/train",
