@@ -58,6 +58,7 @@ if __name__ == "__main__":
     model_dir = params["model_dir"]
     cuda = params["cuda"]
     device = torch.device("cuda") if cuda else torch.device("cpu")
+    print(device)
     if not os.path.isdir(model_dir + timestamp):
         os.mkdir(model_dir + timestamp)
     json.dump(params, open(model_dir + timestamp + "/config.json", "w"))
@@ -106,7 +107,7 @@ if __name__ == "__main__":
         # print(tactic_tensor)
         for graphs in geo_loader:
             graphs.to(device)
-            tactic_tensor.to(device)
+            tactic_tensor = tactic_tensor.to(device)
             update += 1
             optimizer.zero_grad()
             out = net(graphs)
@@ -136,7 +137,7 @@ if __name__ == "__main__":
                 for val_graphs in val_geo_loader:
                     print("*" * 100)
                     val_graphs.to(device)
-                    val_tactic_tensor.to(device)
+                    val_tactic_tensor = val_tactic_tensor.to(device)
                     val_out = net(val_graphs)
                     loss = ce(val_out, val_tactic_tensor).cpu().item()
                     print("Validation loss", loss)
