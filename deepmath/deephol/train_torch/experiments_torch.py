@@ -5,17 +5,19 @@ from __future__ import division
 from __future__ import print_function
 
 import json
+import os
 import torch
 import torch.nn as nn
+from datetime import datetime
+from torch_geometric.data import DataLoader as GeoLoader
 from deepmath.deephol.train_torch import data_torch
+from deepmath.deephol.train_torch.model_torch import GNN
+from deepmath.deephol.train_torch.utils_torch import accuracy
 import tensorflow as tf
 tf.enable_eager_execution()
-
+timestamp = str(datetime.now()).split(".")[:-1][0].replace("-", "_").replace(" ", "_").replace(":", "_")
 
 if __name__ == "__main__":
-    from torch_geometric.data import DataLoader as GeoLoader
-    from deepmath.deephol.train_torch.model_torch import Net, GNN
-    from deepmath.deephol.train_torch.utils_torch import accuracy
     import argparse
 
     ap = argparse.ArgumentParser()
@@ -146,4 +148,6 @@ if __name__ == "__main__":
                 break
 
             # pp(losses)
-            json.dump(losses, open(model_dir + "loss.json", "w"))
+            if not os.path.isdir(model_dir + timestamp):
+                os.mkdir(model_dir + timestamp)
+            json.dump(losses, open(model_dir + timestamp + "/loss.json", "w"))
