@@ -37,23 +37,23 @@ if __name__ == "__main__":
                     required=False, default="missing_vocab.txt",
                     help="missing vocabulary")
     ap.add_argument("-bs", "--batch_size",
-                    required=False, default=32,
+                    required=False, type=int, default=32,
                     help="batch size to use")
     ap.add_argument("-sd", "--state_dimension",
-                    required=False, default=16,
+                    required=False, type=int,  default=16,
                     help="state dimension")
     ap.add_argument("-gt", "--gnn_type",
                     required=False, default="GIN",
                     help="graph neural network type to use")
     ap.add_argument("-hl", "--hidden_layers",
-                    required=False, default=10,
+                    required=False, type=int,  default=10,
                     help="graph neural network number of hidden layers")
     ap.add_argument("-cuda", "--cuda",
-                    required=False, default=False,
+                    required=False, type=bool,  default=True,
                     help="whether to use cuda")
     params = vars(ap.parse_args())
 
-    batch_size = params["batch_size"]
+    batch_size = int(params["batch_size"])
     dataset_dir = params["dataset_dir"]
     model_dir = params["model_dir"]
     cuda = params["cuda"]
