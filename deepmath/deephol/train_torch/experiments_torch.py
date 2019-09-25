@@ -58,6 +58,8 @@ if __name__ == "__main__":
     model_dir = params["model_dir"]
     cuda = params["cuda"]
     device = torch.device("cuda") if cuda else torch.device("cpu")
+    if not os.path.isdir(model_dir + timestamp):
+        os.mkdir(model_dir + timestamp)
     json.dump(params, open(model_dir + timestamp + "/config.json", "w"))
 
     train_set = data_torch.TacticDataset(
@@ -149,6 +151,4 @@ if __name__ == "__main__":
                 break
 
             # pp(losses)
-            if not os.path.isdir(model_dir + timestamp):
-                os.mkdir(model_dir + timestamp)
             json.dump(losses, open(model_dir + timestamp + "/loss.json", "w"))
