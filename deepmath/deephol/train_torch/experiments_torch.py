@@ -59,6 +59,7 @@ if __name__ == "__main__":
     batch_size = int(params["batch_size"])
     dataset_dir = params["dataset_dir"]
     model_dir = params["model_dir"]
+    gnn_type = params["gnn_type"]
     lr = params["learning_rate"]
     cuda = params["cuda"]
     device = torch.device("cuda") if cuda else torch.device("cpu")
@@ -80,7 +81,10 @@ if __name__ == "__main__":
     val_batch_size = 64
     val_batch_sampler = data_torch.get_directory_batch_sampler(val_set, val_batch_size)
 
-    net = GNN(params)
+    if gnn_type == "GIN":
+        net = GNN(params)
+    elif gnn_type == "GRN":
+        net = GRN(params)
     optimizer = torch.optim.Adam(net.parameters(), lr=lr, weight_decay=5e-4)
 
     losses = {
