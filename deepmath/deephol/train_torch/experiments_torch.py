@@ -48,6 +48,9 @@ if __name__ == "__main__":
     ap.add_argument("-hl", "--hidden_layers",
                     required=False, type=int,  default=10,
                     help="graph neural network number of hidden layers")
+    ap.add_argument("-lr", "--learning_rate",
+                    required=False, type=float, default=3e-4,
+                    help="learning rate for adam")
     ap.add_argument("-cuda", "--cuda",
                     required=False, type=bool,  default=True,
                     help="whether to use cuda")
@@ -56,8 +59,10 @@ if __name__ == "__main__":
     batch_size = int(params["batch_size"])
     dataset_dir = params["dataset_dir"]
     model_dir = params["model_dir"]
+    lr = params["learning_rate"]
     cuda = params["cuda"]
     device = torch.device("cuda") if cuda else torch.device("cpu")
+    print(device)
     if not os.path.isdir(model_dir + timestamp):
         os.mkdir(model_dir + timestamp)
     json.dump(params, open(model_dir + timestamp + "/config.json", "w"))
@@ -76,7 +81,7 @@ if __name__ == "__main__":
     val_batch_sampler = data_torch.get_directory_batch_sampler(val_set, val_batch_size)
 
     net = GNN(params)
-    optimizer = torch.optim.Adam(net.parameters(), lr=0.01, weight_decay=5e-4)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr, weight_decay=5e-4)
 
     losses = {
         "training": {
